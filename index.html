@@ -1,40 +1,33 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Space | Khoảnh khắc của chúng ta</title>
+    <title>Memory Space - Kho kỷ niệm</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
     <canvas id="stars"></canvas>
 
     <header class="header">
         <div class="logo">✦ MEMORY SPACE ✦</div>
-        <p>Nơi lưu giữ những khoảnh khắc không thể quên</p>
+        <p class="subtitle">Nơi lưu giữ những khoảnh khắc đáng nhớ</p>
     </header>
 
     <main>
         <section class="upload-section">
-            <h2>Thêm kỷ niệm mới ✨</h2>
-            <p class="description">
-                Hãy đặt tên cho kỷ niệm và chọn những bức ảnh đáng nhớ.
-            </p>
+            <h2>Gửi kỷ niệm của bạn</h2>
 
             <input
                 type="text"
                 id="memoryTitle"
-                placeholder="Ví dụ: Thanh xuân lớp chúng mình..."
+                placeholder="Tên kỷ niệm..."
                 maxlength="100"
             >
 
             <label for="files" class="upload-button">
-                <span>📸</span> Chọn ảnh kỷ niệm
+                <span>＋</span> Chọn ảnh để tải lên
             </label>
 
             <input
@@ -45,42 +38,35 @@
                 hidden
             >
 
-            <p class="upload-note">
-                Hỗ trợ JPG, PNG, WEBP · Tối đa 5MB mỗi ảnh
-            </p>
+            <p id="uploadStatus"></p>
 
-            <p id="uploadStatus" class="upload-status"></p>
+            <button id="manageButton" class="manage-button">
+                Quản lý ảnh
+            </button>
+
+            <div id="hiddenPanel" class="hidden-panel" hidden>
+                <h3>Ảnh đã ẩn</h3>
+                <div id="hiddenList"></div>
+            </div>
         </section>
 
         <section class="gallery-section">
-            <div class="section-heading">
-                <h2>🌌 Kho kỷ niệm của chúng ta</h2>
-                <p>Những khoảnh khắc được treo giữa ngân hà</p>
-            </div>
+            <h2 class="gallery-title">✧ Những kỷ niệm của chúng ta ✧</h2>
 
             <div id="gallery" class="gallery"></div>
 
-            <div id="empty" class="empty-message">
-                <div class="empty-icon">🌠</div>
-                <h3>Không gian vẫn còn trống...</h3>
-                <p>Hãy tải lên kỷ niệm đầu tiên của bạn nhé!</p>
+            <div id="empty" class="empty">
+                Chưa có kỷ niệm nào được lưu lại...
             </div>
         </section>
     </main>
 
     <div id="viewer" class="viewer">
-        <button class="close-viewer" onclick="closeViewer()">×</button>
-        <div class="viewer-content">
-            <img id="bigImage" src="" alt="Ảnh kỷ niệm">
-            <h2 id="bigCaption"></h2>
-            <p id="bigDate"></p>
-        </div>
+        <button id="closeViewer" class="close-viewer">×</button>
+        <img id="bigImage" src="" alt="Ảnh kỷ niệm">
+        <h2 id="bigCaption"></h2>
+        <p id="bigDate"></p>
     </div>
-
-    <footer>
-        <p>Made with ♥ for our memories</p>
-        <p>Every moment deserves a place in the universe.</p>
-    </footer>
 
     <script type="module" src="script.js"></script>
 </body>

@@ -1,21 +1,20 @@
+import { createClient } from
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
-// =====================================
-// 1. KẾT NỐI SUPABASE
-// =====================================
-
+// Thông tin Supabase của bạn
 const SUPABASE_URL = "https://qnbahmezqoqhfwjkhjfl.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_nLAnTtBInOaUA2hhRWzjLQ_tARr1KS7";
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const SUPABASE_ANON_KEY =
+    "sb_publishable_nLAnTtBInOaUA2hhRWzjLQ_tARr1KS7";
 
-// =====================================
-// 2. LẤY PHẦN TỬ HTML
-// =====================================
+const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
 
-const fileInput = document.getElementById("files");
-const memoryTitleInput = document.getElementById("memoryTitle");
+// Các phần tử HTML
+const filesInput = document.getElementById("files");
+const memoryTitle = document.getElementById("memoryTitle");
 const gallery = document.getElementById("gallery");
 const empty = document.getElementById("empty");
 const uploadStatus = document.getElementById("uploadStatus");
@@ -25,266 +24,382 @@ const bigImage = document.getElementById("bigImage");
 const bigCaption = document.getElementById("bigCaption");
 const bigDate = document.getElementById("bigDate");
 
-// =====================================
-// 3. ĐỊNH DẠNG NGÀY
-// =====================================
+const manageButton = document.getElementById("manageButton");
+const hiddenPanel = document.getElementById("hiddenPanel");
+const hiddenList = document.getElementById("hiddenList");
 
-function formatDate(dateString) {
-    if (!dateString) return "Vừa mới tải lên";
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-    return new Date(dateString).toLocaleDateString("vi-VN", {
+// Định dạng ngày tháng
+function formatDate(date) {
+    return new Date(date).toLocaleDateString("vi-VN", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric"
     });
 }
 
-// =====================================
-// 4. HIỂN THỊ ẢNH
-// =====================================
-
-function render(photos) {
+// Hiển thị ảnh
+function renderPhotos(photos) {
     gallery.innerHTML = "";
 
-    if (!photos || photos.length === 0) {
-        empty.style.display = "block";
-        return;
-    }
+    empty.style.display = photos.length === 0 ? "block" : "none";
 
-    empty.style.display = "none";
+    photos.forEach((photo, index) => {
+        const card = document.createElement("div");
+        card.className = "photo-item";
 
-    photos.forEach((photo) => {
-        const item = document.createElement("div");
-        item.className = "photo-item";
+        const rotation = [-3, 2, -2, 3, 1, -1][index % 6];
+        card.style.setProperty("--rotation", `${rotation}deg`);
 
-        const img = document.createElement("img");
-        img.src = photo.image_url;
-        img.alt = photo.title || "Memory";
-        img.loading = "lazy";
+        const image = document.createElement("img");
+        image.src = photo.image_url;
+        image.alt = photo.title || "Kỷ niệm";
+        image.loading = "lazy";
 
-        const caption = document.createElement("p");
-        caption.textContent = photo.title || "Một kỷ niệm";
+        image.addEventListener("click", () => {
+            openViewer(photo);
+        });
 
-        const date = document.createElement("small");
+        const caption = document.createElement("div");
+        caption.className = "photo-caption";
+        caption.textContent = photo.title || "Kỷ niệm";
+
+        const date = document.createElement("div");
+        date.className = "photo-date";
         date.textContent = formatDate(photo.created_at);
 
-        item.append(img, caption, date);
+        const hideButton = document.createElement("button");
+        hideButton.className = "hide-button";
+        hideButton.textContent = "Ẩn ảnh khỏi website";
 
-        item.addEventListener("click", () => openViewer(photo));
+        hideButton.addEventListener("click", () => {
+            hidePhoto(photo.id);
+        });
 
-        gallery.appendChild(item);
+        card.append(image, caption, date, hideButton);
+        gallery.appendChild(card);
     });
 }
 
-// =====================================
-// 5. TẢI DANH SÁCH ẢNH
-// =====================================
-
+// Tải danh sách ảnh công khai
 async function loadPhotos() {
-    try {
-        const { data, error } = await supabase
-            .from("photos")
-            .select("*")
-            .order("created_at", { ascending: false });
+    const { data, error } = await supabase
+        .from("photos")
+        .select("*")
+        .eq("is_hidden", false)
+        .order("created_at", { ascending: false });
 
-        if (error) throw error;
-
-        render(data);
-
-    } catch (error) {
-        console.error("Lỗi tải danh sách ảnh:", error);
-        empty.textContent = "Không thể tải thư viện. Hãy kiểm tra kết nối Supabase.";
-        empty.style.display = "block";
-    }
-}
-
-// =====================================
-// 6. TẢI ẢNH LÊN
-// =====================================
-
-fileInput.addEventListener("change", async (event) => {
-    const files = Array.from(event.target.files);
-
-    if (files.length === 0) return;
-
-    const memoryTitle = memoryTitleInput.value.trim();
-
-    if (!memoryTitle) {
-        alert("Bạn hãy nhập tên kỷ niệm trước khi chọn ảnh nhé!");
-        fileInput.value = "";
-        memoryTitleInput.focus();
+    if (error) {
+        console.error(error);
+        uploadStatus.textContent = "Không thể tải danh sách ảnh.";
         return;
     }
 
-    let successCount = 0;
+    renderPhotos(data || []);
+}
 
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+// Tải ảnh lên Supabase
+filesInput.addEventListener("change", async () => {
+    const files = Array.from(filesInput.files || []);
+    const title = memoryTitle.value.trim();
 
+    if (files.length === 0) return;
+
+    if (!title) {
+        alert("Bạn hãy nhập tên kỷ niệm trước nhé!");
+        filesInput.value = "";
+        return;
+    }
+
+    for (const file of files) {
         if (!file.type.startsWith("image/")) {
-            alert(`"${file.name}" không phải là ảnh!`);
-            continue;
+            alert(`${file.name} không phải là ảnh.`);
+            filesInput.value = "";
+            return;
         }
 
-        if (file.size > 5 * 1024 * 1024) {
-            alert(`Ảnh "${file.name}" vượt quá 5MB!`);
-            continue;
-        }
-
-        let storagePath = null;
-
-        try {
-            uploadStatus.textContent =
-                `Đang tải ảnh ${i + 1}/${files.length}: ${file.name}`;
-
-            // Tạo tên file an toàn
-            const extension = file.name.split(".").pop().toLowerCase();
-            const safeExtension = extension.replace(/[^a-z0-9]/g, "");
-
-            if (!safeExtension) {
-                throw new Error("Không xác định được định dạng ảnh.");
-            }
-
-            const fileName =
-                `${Date.now()}-${crypto.randomUUID()}.${safeExtension}`;
-
-            storagePath = `uploads/${fileName}`;
-
-            // Tải ảnh lên Storage
-            const { error: uploadError } = await supabase
-                .storage
-                .from("photos")
-                .upload(storagePath, file, {
-                    contentType: file.type,
-                    upsert: false
-                });
-
-            if (uploadError) throw uploadError;
-
-            // Lấy URL ảnh
-            const { data: urlData } = supabase
-                .storage
-                .from("photos")
-                .getPublicUrl(storagePath);
-
-            const imageUrl = urlData.publicUrl;
-
-            // Lưu tên kỷ niệm vào Database
-            const { error: insertError } = await supabase
-                .from("photos")
-                .insert({
-                    title: memoryTitle,
-                    image_url: imageUrl,
-                    storage_path: storagePath
-                });
-
-            if (insertError) throw insertError;
-
-            successCount++;
-
-        } catch (error) {
-            console.error("Lỗi tải ảnh:", error);
-
-            // Xóa ảnh trên Storage nếu lưu Database thất bại
-            if (storagePath) {
-                const { error: removeError } = await supabase
-                    .storage
-                    .from("photos")
-                    .remove([storagePath]);
-
-                if (removeError) {
-                    console.error("Không xóa được ảnh tạm:", removeError);
-                }
-            }
-
-            alert(`Không thể tải "${file.name}": ${error.message}`);
+        if (file.size > MAX_FILE_SIZE) {
+            alert(`${file.name} vượt quá giới hạn 5MB.`);
+            filesInput.value = "";
+            return;
         }
     }
 
-    await loadPhotos();
+    filesInput.disabled = true;
+
+    let successCount = 0;
+
+    for (const file of files) {
+        uploadStatus.textContent =
+            `Đang tải ảnh ${successCount + 1}/${files.length}...`;
+
+        const extension = file.name.split(".").pop()
+            .toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+
+        const fileName = `${crypto.randomUUID()}.${extension}`;
+        const storagePath = `uploads/${Date.now()}-${fileName}`;
+
+        // Tải file lên Storage
+        const { error: uploadError } = await supabase
+            .storage
+            .from("photos")
+            .upload(storagePath, file, {
+                contentType: file.type,
+                upsert: false
+            });
+
+        if (uploadError) {
+            console.error(uploadError);
+            uploadStatus.textContent =
+                `Không tải được ảnh ${file.name}.`;
+            continue;
+        }
+
+        // Lấy đường dẫn ảnh công khai
+        const { data: urlData } = supabase
+            .storage
+            .from("photos")
+            .getPublicUrl(storagePath);
+
+        // Lưu thông tin ảnh vào Database
+        const { error: insertError } = await supabase
+            .from("photos")
+            .insert({
+                title: title,
+                image_url: urlData.publicUrl,
+                storage_path: storagePath,
+                is_hidden: false
+            });
+
+        if (insertError) {
+            console.error(insertError);
+            uploadStatus.textContent =
+                `File đã tải lên nhưng chưa lưu được thông tin: ${file.name}`;
+            continue;
+        }
+
+        successCount++;
+    }
 
     uploadStatus.textContent =
         `Đã tải thành công ${successCount}/${files.length} ảnh!`;
 
-    fileInput.value = "";
-    memoryTitleInput.value = "";
+    filesInput.value = "";
+    filesInput.disabled = false;
+
+    await loadPhotos();
 });
 
-// =====================================
-// 7. MỞ ẢNH LỚN
-// =====================================
-
+// Mở ảnh lớn
 function openViewer(photo) {
     bigImage.src = photo.image_url;
-    bigCaption.textContent = photo.title || "Một kỷ niệm";
+    bigCaption.textContent = photo.title || "Kỷ niệm";
     bigDate.textContent = formatDate(photo.created_at);
 
-    viewer.style.display = "flex";
+    viewer.classList.add("active");
 }
 
-// =====================================
-// 8. ĐÓNG ẢNH LỚN
-// =====================================
-
+// Đóng ảnh lớn
 function closeViewer() {
-    viewer.style.display = "none";
+    viewer.classList.remove("active");
     bigImage.src = "";
 }
 
-window.openViewer = openViewer;
-window.closeViewer = closeViewer;
+document.getElementById("closeViewer")
+    .addEventListener("click", closeViewer);
 
-// =====================================
-// 9. HIỆU ỨNG SAO
-// =====================================
+viewer.addEventListener("click", (event) => {
+    if (event.target === viewer) closeViewer();
+});
 
-const canvas = document.getElementById("stars");
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeViewer();
+});
 
-if (canvas) {
-    const ctx = canvas.getContext("2d");
-    let stars = [];
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        stars = [];
-
-        for (let i = 0; i < 150; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 2,
-                alpha: Math.random()
-            });
+// Gọi chức năng quản lý ảnh ở phía máy chủ
+async function managePhoto(action, password, id = null) {
+    const { data, error } = await supabase.functions.invoke(
+        "manage-photo",
+        {
+            body: {
+                action,
+                password,
+                id
+            }
         }
+    );
+
+    if (error) {
+        throw new Error(error.message || "Không thể kết nối chức năng quản lý.");
     }
 
-    function drawStars() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        stars.forEach((star) => {
-            ctx.beginPath();
-            ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-
-            ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
-            ctx.fill();
-
-            star.alpha += (Math.random() - 0.5) * 0.05;
-            star.alpha = Math.max(0.2, Math.min(1, star.alpha));
-        });
-
-        requestAnimationFrame(drawStars);
+    if (data?.error) {
+        throw new Error(data.error);
     }
 
-    resizeCanvas();
-    drawStars();
-
-    window.addEventListener("resize", resizeCanvas);
+    return data;
 }
 
-// =====================================
-// 10. KHỞI ĐỘNG WEBSITE
-// =====================================
+// Ẩn ảnh, không xóa file trong Storage
+async function hidePhoto(id) {
+    const password = prompt("Nhập mật khẩu quản lý để ẩn ảnh:");
 
+    if (password === null || password.trim() === "") return;
+
+    try {
+        await managePhoto("hide", password, id);
+
+        alert("Đã ẩn ảnh khỏi website. Bản sao vẫn được giữ trong Supabase.");
+
+        await loadPhotos();
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+// Mở danh sách ảnh đã ẩn
+manageButton.addEventListener("click", async () => {
+    const password = prompt("Nhập mật khẩu quản lý:");
+
+    if (password === null || password.trim() === "") return;
+
+    manageButton.disabled = true;
+
+    try {
+        const result = await managePhoto("list-hidden", password);
+
+        hiddenPanel.hidden = false;
+        hiddenList.innerHTML = "";
+
+        const photos = result.photos || [];
+
+        if (photos.length === 0) {
+            hiddenList.textContent = "Chưa có ảnh nào bị ẩn.";
+            return;
+        }
+
+        photos.forEach((photo) => {
+            const item = document.createElement("div");
+            item.className = "hidden-item";
+
+            const name = document.createElement("span");
+            name.textContent = photo.title || "Kỷ niệm";
+
+            const button = document.createElement("button");
+            button.className = "restore-button";
+            button.textContent = "Khôi phục";
+
+            button.addEventListener("click", async () => {
+                try {
+                    await managePhoto("restore", password, photo.id);
+                    alert("Đã khôi phục ảnh!");
+
+                    const refreshed = await managePhoto(
+                        "list-hidden",
+                        password
+                    );
+
+                    renderHiddenPhotos(refreshed.photos || [], password);
+                    await loadPhotos();
+                } catch (error) {
+                    alert(error.message);
+                }
+            });
+
+            item.append(name, button);
+            hiddenList.appendChild(item);
+        });
+
+    } catch (error) {
+        alert(error.message);
+    } finally {
+        manageButton.disabled = false;
+    }
+});
+
+// Hiển thị lại danh sách ảnh đã ẩn
+function renderHiddenPhotos(photos, password) {
+    hiddenList.innerHTML = "";
+
+    if (photos.length === 0) {
+        hiddenList.textContent = "Chưa có ảnh nào bị ẩn.";
+        return;
+    }
+
+    photos.forEach((photo) => {
+        const item = document.createElement("div");
+        item.className = "hidden-item";
+
+        const name = document.createElement("span");
+        name.textContent = photo.title || "Kỷ niệm";
+
+        const button = document.createElement("button");
+        button.className = "restore-button";
+        button.textContent = "Khôi phục";
+
+        button.addEventListener("click", async () => {
+            try {
+                await managePhoto("restore", password, photo.id);
+
+                const refreshed = await managePhoto(
+                    "list-hidden",
+                    password
+                );
+
+                renderHiddenPhotos(refreshed.photos || [], password);
+                await loadPhotos();
+
+                alert("Đã khôi phục ảnh!");
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+
+        item.append(name, button);
+        hiddenList.appendChild(item);
+    });
+}
+
+// Hiệu ứng sao
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+let stars = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    stars = Array.from({ length: 130 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5,
+        alpha: Math.random()
+    }));
+}
+
+function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    stars.forEach((star) => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+
+        ctx.fillStyle = `rgba(220,230,255,${star.alpha})`;
+        ctx.fill();
+
+        star.alpha += (Math.random() - 0.5) * 0.05;
+        star.alpha = Math.max(0.2, Math.min(1, star.alpha));
+    });
+
+    requestAnimationFrame(drawStars);
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+resizeCanvas();
+drawStars();
+
+// Tải ảnh khi mở website
 loadPhotos();

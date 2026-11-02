@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -6,13 +5,12 @@
 }
 
 body {
-    font-family: 'Quicksand', sans-serif;
     min-height: 100vh;
-    color: white;
-    background:
-        radial-gradient(ellipse at top, #24204f 0%, transparent 55%),
-        linear-gradient(135deg, #080b20, #17102f, #090d24);
     overflow-x: hidden;
+    background:
+        radial-gradient(ellipse at top, #182044 0%, #090d20 55%, #03050e 100%);
+    color: white;
+    font-family: "Segoe UI", Arial, sans-serif;
 }
 
 #stars {
@@ -26,250 +24,265 @@ body {
 
 .header {
     text-align: center;
-    padding: 65px 20px 35px;
+    padding: 55px 15px 25px;
 }
 
 .logo {
-    font-size: clamp(28px, 5vw, 45px);
-    font-weight: 700;
-    letter-spacing: 5px;
-    color: #e3d8ff;
-    text-shadow: 0 0 25px #9c7cff;
+    font-size: clamp(30px, 6vw, 52px);
+    font-weight: 800;
+    letter-spacing: 7px;
+    color: #fff;
+    text-shadow: 0 0 15px #8d9bff, 0 0 35px #697bff;
 }
 
-.header p {
+.subtitle {
     margin-top: 15px;
-    color: #c6bbec;
+    color: #b9c4ed;
     font-size: 15px;
+    letter-spacing: 2px;
 }
 
 .upload-section {
-    width: min(90%, 550px);
-    margin: 20px auto 75px;
-    padding: 30px 25px;
+    width: min(90%, 600px);
+    margin: 25px auto 65px;
+    padding: 30px 20px;
     text-align: center;
-    border: 1px solid rgba(255,255,255,.15);
-    border-radius: 25px;
-    background: rgba(255,255,255,.055);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(190, 200, 255, 0.2);
+    border-radius: 20px;
     backdrop-filter: blur(12px);
-    box-shadow: 0 10px 40px rgba(0,0,0,.2);
+    box-shadow: 0 0 35px rgba(85, 105, 255, 0.1);
 }
 
 .upload-section h2 {
-    font-size: 23px;
-    margin-bottom: 10px;
-}
-
-.description {
-    color: #bdb5d9;
-    font-size: 14px;
     margin-bottom: 22px;
+    font-size: 23px;
 }
 
 #memoryTitle {
+    display: block;
     width: 100%;
-    padding: 15px 18px;
-    border-radius: 30px;
-    border: 1px solid rgba(255,255,255,.25);
-    background: rgba(255,255,255,.08);
-    color: white;
-    font-family: inherit;
-    font-size: 15px;
-    outline: none;
-    text-align: center;
+    padding: 14px 16px;
     margin-bottom: 18px;
+    border: 1px solid rgba(190, 200, 255, 0.35);
+    border-radius: 12px;
+    outline: none;
+    color: white;
+    background: rgba(5, 10, 35, 0.7);
+    font-size: 15px;
 }
 
 #memoryTitle::placeholder {
-    color: #b5accf;
+    color: #a6afd0;
 }
 
-#memoryTitle:focus {
-    border-color: #c1a7ff;
-    box-shadow: 0 0 15px rgba(160,125,255,.3);
-}
-
-.upload-button {
+.upload-button,
+.manage-button {
     display: inline-block;
-    padding: 14px 28px;
+    padding: 13px 24px;
+    border: none;
     border-radius: 30px;
-    cursor: pointer;
     color: white;
-    font-weight: 700;
-    background: linear-gradient(135deg, #8065d9, #a56bd5);
-    box-shadow: 0 5px 25px rgba(140,95,220,.3);
-    transition: .3s;
+    background: linear-gradient(110deg, #667eea, #764ba2);
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
 }
 
-.upload-button:hover {
+.upload-button:hover,
+.manage-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(140,95,220,.55);
+    box-shadow: 0 0 20px rgba(140, 150, 255, 0.5);
 }
 
-.upload-note {
+.upload-button span {
+    font-size: 20px;
+}
+
+.manage-button {
+    display: block;
+    margin: 15px auto 0;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(190, 200, 255, 0.3);
+}
+
+#uploadStatus {
+    min-height: 22px;
     margin-top: 15px;
-    font-size: 12px;
-    color: #a9a0c9;
+    color: #c5d2ff;
+    font-size: 13px;
 }
 
-.upload-status {
-    margin-top: 14px;
+.hidden-panel {
+    margin-top: 25px;
+    padding: 18px;
+    border-radius: 12px;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.hidden-panel h3 {
+    margin-bottom: 12px;
+}
+
+.hidden-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
     font-size: 13px;
-    color: #c9b9ff;
-    min-height: 18px;
+}
+
+.restore-button {
+    flex-shrink: 0;
+    padding: 7px 12px;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    background: #368b75;
+    cursor: pointer;
 }
 
 .gallery-section {
-    width: min(1200px, 92%);
+    width: min(1200px, 94%);
     margin: auto;
     padding-bottom: 80px;
 }
 
-.section-heading {
+.gallery-title {
+    margin-bottom: 50px;
     text-align: center;
-    margin-bottom: 55px;
-}
-
-.section-heading h2 {
-    font-size: clamp(22px, 4vw, 30px);
-    color: #e6ddff;
-}
-
-.section-heading p {
-    color: #aaa2c9;
-    margin-top: 10px;
-    font-size: 14px;
+    font-size: clamp(20px, 4vw, 28px);
+    color: #dce2ff;
+    text-shadow: 0 0 15px #8794ff;
 }
 
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 65px 35px;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 55px 35px;
     align-items: start;
 }
 
 .photo-item {
     position: relative;
     padding: 12px 12px 18px;
-    background: #f8f4ed;
-    color: #29213b;
-    border-radius: 3px;
-    box-shadow: 0 12px 35px rgba(0,0,0,.45);
-    cursor: pointer;
-    transform: rotate(var(--rotate, -2deg));
-    transition: .3s;
-    animation: appear .6s ease both;
-}
-
-.photo-item:nth-child(even) {
-    --rotate: 2deg;
-}
-
-.photo-item:nth-child(3n) {
-    --rotate: -1deg;
-}
-
-.photo-item:hover {
-    transform: translateY(-12px) rotate(0deg) scale(1.04);
-    z-index: 2;
+    background: #f5f1e9;
+    color: #252538;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+    transform: rotate(var(--rotation));
+    transition: 0.3s;
+    animation: appear 0.5s ease;
 }
 
 .photo-item::before {
     content: "";
     position: absolute;
     width: 2px;
-    height: 40px;
-    background: linear-gradient(#c4a9ff, #806baf);
-    top: -40px;
+    height: 45px;
+    background: #aeb8d5;
+    top: -45px;
     left: 50%;
-    transform: translateX(-50%);
+    z-index: -1;
 }
 
 .photo-item::after {
-    content: "●";
+    content: "✦";
     position: absolute;
-    top: -49px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #d3bdff;
-    font-size: 16px;
-    text-shadow: 0 0 10px #b99aff;
-}
-
-.photo-item img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    display: block;
-    background: #ddd;
-}
-
-.photo-item p {
-    text-align: center;
-    font-weight: 700;
-    margin-top: 15px;
-    font-size: 15px;
-    overflow-wrap: anywhere;
-}
-
-.photo-item small {
-    display: block;
-    text-align: center;
-    margin-top: 7px;
-    color: #81778d;
-    font-size: 11px;
-}
-
-.empty-message {
-    text-align: center;
-    padding: 45px 15px;
-    color: #bdb5d9;
-}
-
-.empty-icon {
-    font-size: 55px;
-    margin-bottom: 15px;
-}
-
-.empty-message h3 {
-    margin-bottom: 10px;
-}
-
-.empty-message p {
+    top: -53px;
+    left: calc(50% - 7px);
+    color: #dce3ff;
     font-size: 14px;
 }
 
-.viewer {
+.photo-item:hover {
+    transform: rotate(0deg) translateY(-10px) scale(1.04);
+    z-index: 2;
+}
+
+.photo-item img {
+    display: block;
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    cursor: pointer;
+    background: #ddd;
+}
+
+.photo-caption {
+    margin-top: 13px;
+    text-align: center;
+    font-family: Georgia, serif;
+    font-size: 16px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.photo-date {
+    margin-top: 7px;
+    text-align: center;
+    color: #777;
+    font-size: 11px;
+}
+
+.hide-button {
+    display: block;
+    margin: 12px auto 0;
+    padding: 8px 17px;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    background: #d6536c;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.hide-button:hover {
+    background: #b82f4b;
+}
+
+.empty {
     display: none;
+    text-align: center;
+    color: #aeb8df;
+    padding: 40px 10px;
+}
+
+.viewer {
     position: fixed;
     inset: 0;
     z-index: 10;
-    background: rgba(3,5,18,.95);
+    display: none;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 25px;
+    background: rgba(0, 0, 0, 0.93);
 }
 
-.viewer-content {
-    text-align: center;
+.viewer.active {
+    display: flex;
+}
+
+.viewer img {
     max-width: 90%;
-}
-
-.viewer-content img {
-    max-width: 100%;
     max-height: 70vh;
-    border: 8px solid white;
-    box-shadow: 0 0 40px rgba(174,140,255,.3);
     object-fit: contain;
+    box-shadow: 0 0 35px rgba(160, 170, 255, 0.25);
 }
 
-.viewer-content h2 {
+.viewer h2 {
     margin-top: 20px;
+    text-align: center;
 }
 
-.viewer-content p {
+.viewer p {
     margin-top: 8px;
-    color: #bcb1d7;
+    color: #aab5d9;
 }
 
 .close-viewer {
@@ -279,43 +292,33 @@ body {
     border: none;
     background: none;
     color: white;
-    font-size: 45px;
+    font-size: 42px;
     cursor: pointer;
-}
-
-footer {
-    text-align: center;
-    padding: 25px 15px;
-    color: #9c93bb;
-    font-size: 12px;
-    line-height: 2;
-    border-top: 1px solid rgba(255,255,255,.08);
 }
 
 @keyframes appear {
     from {
         opacity: 0;
-        transform: translateY(25px) rotate(var(--rotate, -2deg));
+        transform: translateY(20px) rotate(var(--rotation));
     }
     to {
         opacity: 1;
-        transform: translateY(0) rotate(var(--rotate, -2deg));
+        transform: translateY(0) rotate(var(--rotation));
     }
 }
 
 @media (max-width: 600px) {
     .header {
-        padding-top: 45px;
+        padding-top: 35px;
     }
 
-    .upload-section {
-        padding: 25px 18px;
-        margin-bottom: 55px;
+    .logo {
+        letter-spacing: 3px;
     }
 
     .gallery {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 50px 15px;
+        gap: 40px 18px;
     }
 
     .photo-item {
@@ -326,7 +329,11 @@ footer {
         height: 150px;
     }
 
-    .photo-item p {
-        font-size: 12px;
+    .photo-caption {
+        font-size: 13px;
+    }
+
+    .upload-section {
+        margin-bottom: 50px;
     }
 }
