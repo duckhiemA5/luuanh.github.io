@@ -243,14 +243,14 @@ async function managePhoto(action, password, id = null) {
 
 // Ẩn ảnh, không xóa file trong Storage
 async function hidePhoto(id) {
-    const password = prompt("Nhập mật khẩu quản lý để ẩn ảnh:");
+    const password = prompt("Nhập mật khẩu để xóa ảnh:");
 
     if (password === null || password.trim() === "") return;
 
     try {
         await managePhoto("hide", password, id);
 
-        alert("Đã ẩn ảnh khỏi website. Bản sao vẫn được giữ trong Supabase.");
+        alert("Đã xóa ảnh khỏi website!");
 
         await loadPhotos();
     } catch (error) {
