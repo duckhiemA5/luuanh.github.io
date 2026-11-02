@@ -1,453 +1,321 @@
 
-/* ========================================
-   1. CÀI ĐẶT CHUNG
-======================================== */
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 body {
-    min-height: 100vh;
     font-family: 'Quicksand', sans-serif;
-    color: #ffffff;
+    min-height: 100vh;
+    color: white;
     background:
-        radial-gradient(ellipse at top, #25205b 0%, transparent 55%),
-        radial-gradient(ellipse at bottom, #30134e 0%, transparent 60%),
-        linear-gradient(135deg, #080b25, #111333 55%, #09091c);
+        radial-gradient(ellipse at top, #24204f 0%, transparent 55%),
+        linear-gradient(135deg, #080b20, #17102f, #090d24);
     overflow-x: hidden;
 }
-
-
-/* ========================================
-   2. NỀN SAO
-======================================== */
 
 #stars {
     position: fixed;
     inset: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: -1;
     pointer-events: none;
 }
 
-.space-container {
-    position: relative;
-    z-index: 1;
-    width: min(1200px, 92%);
-    margin: auto;
-}
-
-
-/* ========================================
-   3. HEADER
-======================================== */
-
 .header {
     text-align: center;
-    padding: 75px 20px 35px;
+    padding: 65px 20px 35px;
 }
 
 .logo {
-    color: #d8c5ff;
-    font-size: 14px;
+    font-size: clamp(28px, 5vw, 45px);
     font-weight: 700;
-    letter-spacing: 6px;
-    margin-bottom: 25px;
-    text-shadow: 0 0 15px #b68aff;
-}
-
-.header h1 {
-    font-size: clamp(38px, 7vw, 68px);
-    font-weight: 700;
-    letter-spacing: 2px;
-    background: linear-gradient(
-        90deg,
-        #ffffff,
-        #c4a5ff,
-        #8bd9ff,
-        #ffffff
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 0 15px #a78bfa);
+    letter-spacing: 5px;
+    color: #e3d8ff;
+    text-shadow: 0 0 25px #9c7cff;
 }
 
 .header p {
-    max-width: 550px;
-    margin: 20px auto 0;
-    color: #c9c6e9;
+    margin-top: 15px;
+    color: #c6bbec;
     font-size: 15px;
-    line-height: 1.8;
 }
 
-
-/* ========================================
-   4. KHU VỰC UPLOAD
-======================================== */
-
 .upload-section {
+    width: min(90%, 550px);
+    margin: 20px auto 75px;
+    padding: 30px 25px;
     text-align: center;
-    margin: 35px auto 75px;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 25px;
+    background: rgba(255,255,255,.055);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 40px rgba(0,0,0,.2);
+}
+
+.upload-section h2 {
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+.description {
+    color: #bdb5d9;
+    font-size: 14px;
+    margin-bottom: 22px;
+}
+
+#memoryTitle {
+    width: 100%;
+    padding: 15px 18px;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(255,255,255,.08);
+    color: white;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+#memoryTitle::placeholder {
+    color: #b5accf;
+}
+
+#memoryTitle:focus {
+    border-color: #c1a7ff;
+    box-shadow: 0 0 15px rgba(160,125,255,.3);
 }
 
 .upload-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px 32px;
-    border: 1px solid rgba(210, 184, 255, 0.5);
-    border-radius: 50px;
-    color: white;
-    font-size: 15px;
-    font-weight: 700;
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 30px;
     cursor: pointer;
-    background: linear-gradient(
-        135deg,
-        rgba(135, 83, 220, 0.8),
-        rgba(67, 116, 220, 0.8)
-    );
-    box-shadow: 0 0 25px rgba(151, 107, 255, 0.35);
-    transition: 0.3s ease;
-}
-
-.upload-button span {
-    font-size: 23px;
-    line-height: 1;
+    color: white;
+    font-weight: 700;
+    background: linear-gradient(135deg, #8065d9, #a56bd5);
+    box-shadow: 0 5px 25px rgba(140,95,220,.3);
+    transition: .3s;
 }
 
 .upload-button:hover {
-    transform: translateY(-4px) scale(1.04);
-    box-shadow: 0 0 35px rgba(174, 137, 255, 0.65);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(140,95,220,.55);
 }
 
 .upload-note {
     margin-top: 15px;
-    color: #aaa9d0;
     font-size: 12px;
+    color: #a9a0c9;
 }
 
-
-/* ========================================
-   5. TIÊU ĐỀ GALLERY
-======================================== */
+.upload-status {
+    margin-top: 14px;
+    font-size: 13px;
+    color: #c9b9ff;
+    min-height: 18px;
+}
 
 .gallery-section {
-    padding-bottom: 70px;
+    width: min(1200px, 92%);
+    margin: auto;
+    padding-bottom: 80px;
 }
 
-.section-title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+.section-heading {
+    text-align: center;
     margin-bottom: 55px;
 }
 
-.section-title span {
-    color: #c6a3ff;
-    font-size: 25px;
-    text-shadow: 0 0 15px #bd8cff;
+.section-heading h2 {
+    font-size: clamp(22px, 4vw, 30px);
+    color: #e6ddff;
 }
 
-.section-title h2 {
-    font-size: 25px;
-    letter-spacing: 3px;
-    font-weight: 600;
-    color: #e7d9ff;
-}
-
-
-/* ========================================
-   6. THÔNG BÁO CHƯA CÓ ẢNH
-======================================== */
-
-.empty-message {
-    text-align: center;
-    padding: 55px 20px;
-    color: #bcb8df;
-}
-
-.empty-icon {
-    font-size: 65px;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 0 20px #a78bfa);
-    animation: floating 3s ease-in-out infinite;
-}
-
-.empty-message h3 {
-    color: #e5d9ff;
-    font-size: 21px;
-    margin-bottom: 12px;
-}
-
-.empty-message p {
-    max-width: 420px;
-    margin: auto;
-    line-height: 1.8;
+.section-heading p {
+    color: #aaa2c9;
+    margin-top: 10px;
     font-size: 14px;
 }
 
-
-/* ========================================
-   7. KHU VỰC TREO ẢNH
-======================================== */
-
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 65px 35px;
-    padding: 20px 10px;
+    align-items: start;
 }
 
 .photo-item {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 13px 13px 18px;
-    background: linear-gradient(145deg, #fffdf5, #e8e1f1);
-    border-radius: 4px;
-    box-shadow:
-        0 10px 25px rgba(0, 0, 0, 0.35),
-        0 0 20px rgba(180, 145, 255, 0.15);
+    padding: 12px 12px 18px;
+    background: #f8f4ed;
+    color: #29213b;
+    border-radius: 3px;
+    box-shadow: 0 12px 35px rgba(0,0,0,.45);
     cursor: pointer;
-    transition: 0.35s ease;
-    animation: appear 0.7s ease both;
+    transform: rotate(var(--rotate, -2deg));
+    transition: .3s;
+    animation: appear .6s ease both;
 }
 
-/* Dây treo ảnh */
+.photo-item:nth-child(even) {
+    --rotate: 2deg;
+}
+
+.photo-item:nth-child(3n) {
+    --rotate: -1deg;
+}
+
+.photo-item:hover {
+    transform: translateY(-12px) rotate(0deg) scale(1.04);
+    z-index: 2;
+}
+
 .photo-item::before {
     content: "";
     position: absolute;
-    top: -43px;
-    left: 50%;
     width: 2px;
-    height: 43px;
-    background: linear-gradient(#d6c1ff, #fff0bd);
-    box-shadow: 0 0 8px #c9a7ff;
+    height: 40px;
+    background: linear-gradient(#c4a9ff, #806baf);
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-/* Kẹp ảnh */
 .photo-item::after {
-    content: "";
+    content: "●";
     position: absolute;
-    top: -8px;
+    top: -49px;
     left: 50%;
-    width: 14px;
-    height: 19px;
     transform: translateX(-50%);
-    border-radius: 3px;
-    background: #e6c98d;
-    box-shadow: 0 0 8px rgba(255, 220, 160, 0.7);
+    color: #d3bdff;
+    font-size: 16px;
+    text-shadow: 0 0 10px #b99aff;
 }
 
 .photo-item img {
     width: 100%;
     height: 220px;
     object-fit: cover;
-    border-radius: 2px;
     display: block;
+    background: #ddd;
 }
 
 .photo-item p {
-    width: 100%;
-    margin-top: 13px;
-    color: #30294a;
-    font-size: 14px;
-    font-weight: 700;
     text-align: center;
+    font-weight: 700;
+    margin-top: 15px;
+    font-size: 15px;
     overflow-wrap: anywhere;
 }
 
 .photo-item small {
-    margin-top: 6px;
-    color: #746c88;
+    display: block;
+    text-align: center;
+    margin-top: 7px;
+    color: #81778d;
     font-size: 11px;
 }
 
-.photo-item:hover {
-    transform: translateY(-10px) rotate(0deg) scale(1.04);
-    box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.45),
-        0 0 30px rgba(184, 139, 255, 0.45);
-    z-index: 2;
+.empty-message {
+    text-align: center;
+    padding: 45px 15px;
+    color: #bdb5d9;
 }
 
-/* Xoay nhẹ từng ảnh */
-.photo-item:nth-child(4n + 1) {
-    transform: rotate(-2deg);
+.empty-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
 }
 
-.photo-item:nth-child(4n + 2) {
-    transform: rotate(1.8deg);
+.empty-message h3 {
+    margin-bottom: 10px;
 }
 
-.photo-item:nth-child(4n + 3) {
-    transform: rotate(-1deg);
+.empty-message p {
+    font-size: 14px;
 }
-
-.photo-item:nth-child(4n) {
-    transform: rotate(2deg);
-}
-
-
-/* ========================================
-   8. KHUNG XEM ẢNH LỚN
-======================================== */
 
 .viewer {
     display: none;
     position: fixed;
     inset: 0;
-    z-index: 100;
-    justify-content: center;
+    z-index: 10;
+    background: rgba(3,5,18,.95);
     align-items: center;
+    justify-content: center;
     padding: 25px;
-    background: rgba(3, 4, 18, 0.92);
-    backdrop-filter: blur(12px);
 }
 
 .viewer-content {
-    max-width: 850px;
-    width: 100%;
-    max-height: 90vh;
     text-align: center;
-    animation: zoomIn 0.3s ease;
+    max-width: 90%;
 }
 
 .viewer-content img {
-    display: block;
     max-width: 100%;
     max-height: 70vh;
-    margin: auto;
+    border: 8px solid white;
+    box-shadow: 0 0 40px rgba(174,140,255,.3);
     object-fit: contain;
-    border: 5px solid rgba(255, 255, 255, 0.9);
-    border-radius: 5px;
-    box-shadow: 0 0 35px rgba(166, 127, 255, 0.4);
 }
 
 .viewer-content h2 {
     margin-top: 20px;
-    color: #e7d9ff;
-    font-size: 21px;
-    overflow-wrap: anywhere;
 }
 
 .viewer-content p {
     margin-top: 8px;
-    color: #aaa9d0;
-    font-size: 13px;
+    color: #bcb1d7;
 }
 
 .close-viewer {
     position: absolute;
-    top: 25px;
-    right: 35px;
-    width: 45px;
-    height: 45px;
+    top: 20px;
+    right: 30px;
     border: none;
-    border-radius: 50%;
+    background: none;
     color: white;
-    font-size: 30px;
-    background: rgba(255, 255, 255, 0.12);
+    font-size: 45px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-.close-viewer:hover {
-    background: #8d63db;
-    transform: rotate(90deg);
-}
-
-
-/* ========================================
-   9. FOOTER
-======================================== */
-
-.footer {
-    padding: 35px 15px;
-    border-top: 1px solid rgba(206, 183, 255, 0.15);
+footer {
     text-align: center;
-    color: #aaa4cf;
+    padding: 25px 15px;
+    color: #9c93bb;
     font-size: 12px;
     line-height: 2;
-    letter-spacing: 1px;
-}
-
-
-/* ========================================
-   10. HIỆU ỨNG
-======================================== */
-
-@keyframes floating {
-    0%, 100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-12px);
-    }
+    border-top: 1px solid rgba(255,255,255,.08);
 }
 
 @keyframes appear {
     from {
         opacity: 0;
-        transform: translateY(25px);
+        transform: translateY(25px) rotate(var(--rotate, -2deg));
     }
-
     to {
         opacity: 1;
+        transform: translateY(0) rotate(var(--rotate, -2deg));
     }
 }
-
-@keyframes zoomIn {
-    from {
-        opacity: 0;
-        transform: scale(0.85);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-
-/* ========================================
-   11. RESPONSIVE - ĐIỆN THOẠI
-======================================== */
 
 @media (max-width: 600px) {
     .header {
-        padding-top: 55px;
-    }
-
-    .logo {
-        font-size: 11px;
-        letter-spacing: 4px;
-    }
-
-    .header p {
-        font-size: 13px;
+        padding-top: 45px;
     }
 
     .upload-section {
+        padding: 25px 18px;
         margin-bottom: 55px;
     }
 
     .gallery {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 55px 15px;
-        padding: 10px 0;
+        gap: 50px 15px;
     }
 
     .photo-item {
@@ -460,23 +328,5 @@ body {
 
     .photo-item p {
         font-size: 12px;
-    }
-
-    .section-title h2 {
-        font-size: 19px;
-        letter-spacing: 2px;
-    }
-
-    .section-title {
-        gap: 12px;
-    }
-
-    .viewer-content img {
-        max-height: 60vh;
-    }
-
-    .close-viewer {
-        top: 15px;
-        right: 15px;
     }
 }

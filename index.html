@@ -4,43 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Memory Space - Kho lưu giữ kỷ niệm</title>
-
+    <title>Memory Space | Khoảnh khắc của chúng ta</title>
     <link rel="stylesheet" href="style.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- Nền vũ trụ -->
     <canvas id="stars"></canvas>
 
-    <div class="space-container">
+    <header class="header">
+        <div class="logo">✦ MEMORY SPACE ✦</div>
+        <p>Nơi lưu giữ những khoảnh khắc không thể quên</p>
+    </header>
 
-        <!-- Tiêu đề -->
-        <header class="header">
-            <div class="logo">✦ MEMORY SPACE ✦</div>
-
-            <h1>Our Little Universe</h1>
-
-            <p>
-                Mỗi bức ảnh là một vì sao,
-                mỗi kỷ niệm là một điều không thể quên.
-            </p>
-        </header>
-
-
-        <!-- Khu vực tải ảnh -->
+    <main>
         <section class="upload-section">
+            <h2>Thêm kỷ niệm mới ✨</h2>
+            <p class="description">
+                Hãy đặt tên cho kỷ niệm và chọn những bức ảnh đáng nhớ.
+            </p>
+
+            <input
+                type="text"
+                id="memoryTitle"
+                placeholder="Ví dụ: Thanh xuân lớp chúng mình..."
+                maxlength="100"
+            >
 
             <label for="files" class="upload-button">
-                <span>＋</span>
-                Thêm kỷ niệm
+                <span>📸</span> Chọn ảnh kỷ niệm
             </label>
 
             <input
@@ -52,75 +46,42 @@
             >
 
             <p class="upload-note">
-                Chọn ảnh từ thiết bị để chia sẻ vào kho Memory Space
+                Hỗ trợ JPG, PNG, WEBP · Tối đa 5MB mỗi ảnh
             </p>
 
+            <p id="uploadStatus" class="upload-status"></p>
         </section>
 
-
-        <!-- Khu vực trưng bày ảnh -->
-        <main class="gallery-section">
-
-            <div class="section-title">
-                <span>✧</span>
-                <h2>Our Memories</h2>
-                <span>✧</span>
+        <section class="gallery-section">
+            <div class="section-heading">
+                <h2>🌌 Kho kỷ niệm của chúng ta</h2>
+                <p>Những khoảnh khắc được treo giữa ngân hà</p>
             </div>
 
-            <!-- Thông báo khi chưa có ảnh -->
-            <div id="empty" class="empty-message">
-                <div class="empty-icon">🌌</div>
-
-                <h3>Vũ trụ vẫn đang trống...</h3>
-
-                <p>
-                    Hãy tải lên những bức ảnh đầu tiên
-                    để tạo nên những kỷ niệm của chúng ta.
-                </p>
-            </div>
-
-            <!-- Danh sách ảnh -->
             <div id="gallery" class="gallery"></div>
 
-        </main>
+            <div id="empty" class="empty-message">
+                <div class="empty-icon">🌠</div>
+                <h3>Không gian vẫn còn trống...</h3>
+                <p>Hãy tải lên kỷ niệm đầu tiên của bạn nhé!</p>
+            </div>
+        </section>
+    </main>
 
-
-        <!-- Chân trang -->
-        <footer class="footer">
-            <p>✦ Made with love in our little universe ✦</p>
-            <p>Memory Space © 2026</p>
-        </footer>
-
-    </div>
-
-
-    <!-- Khung xem ảnh lớn -->
     <div id="viewer" class="viewer">
-
-        <button
-            class="close-viewer"
-            type="button"
-            onclick="closeViewer()"
-            aria-label="Đóng"
-        >
-            ×
-        </button>
-
+        <button class="close-viewer" onclick="closeViewer()">×</button>
         <div class="viewer-content">
-
             <img id="bigImage" src="" alt="Ảnh kỷ niệm">
-
             <h2 id="bigCaption"></h2>
-
             <p id="bigDate"></p>
-
         </div>
-
     </div>
 
+    <footer>
+        <p>Made with ♥ for our memories</p>
+        <p>Every moment deserves a place in the universe.</p>
+    </footer>
 
-    <!-- JavaScript -->
     <script type="module" src="script.js"></script>
-
 </body>
 </html>
