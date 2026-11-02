@@ -1,308 +1,482 @@
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap');
+/* ========================================
+   1. CÀI ĐẶT CHUNG
+======================================== */
 
 * {
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
-  min-height: 100vh;
-  overflow-x: hidden;
-  color: #fff4f7;
-  font-family: 'DM Sans', sans-serif;
-  background: radial-gradient(
-    ellipse at 50% 30%,
-    #35264f 0%,
-    #17162f 48%,
-    #070a18 100%
-  );
+    min-height: 100vh;
+    font-family: 'Quicksand', sans-serif;
+    color: #ffffff;
+    background:
+        radial-gradient(ellipse at top, #25205b 0%, transparent 55%),
+        radial-gradient(ellipse at bottom, #30134e 0%, transparent 60%),
+        linear-gradient(135deg, #080b25, #111333 55%, #09091c);
+    overflow-x: hidden;
 }
+
+
+/* ========================================
+   2. NỀN SAO
+======================================== */
 
 #stars {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 22px 7%;
-  border-bottom: 1px solid #ffffff18;
+.space-container {
+    position: relative;
+    z-index: 1;
+    width: min(1200px, 92%);
+    margin: auto;
+}
+
+
+/* ========================================
+   3. HEADER
+======================================== */
+
+.header {
+    text-align: center;
+    padding: 75px 20px 35px;
 }
 
 .logo {
-  font-size: 13px;
-  letter-spacing: 4px;
+    color: #d8c5ff;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    margin-bottom: 25px;
+    text-shadow: 0 0 15px #b68aff;
 }
 
-.logo span {
-  color: #e8a8db;
+.header h1 {
+    font-size: clamp(38px, 7vw, 68px);
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: linear-gradient(
+        90deg,
+        #ffffff,
+        #c4a5ff,
+        #8bd9ff,
+        #ffffff
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 15px #a78bfa);
 }
 
-button {
-  cursor: pointer;
-  font-family: inherit;
+.header p {
+    max-width: 550px;
+    margin: 20px auto 0;
+    color: #c9c6e9;
+    font-size: 15px;
+    line-height: 1.8;
 }
 
-.add-btn {
-  border: 1px solid #d9b9ff66;
-  border-radius: 30px;
-  padding: 11px 18px;
-  background: #ffffff0d;
-  color: white;
-  transition: .25s;
+
+/* ========================================
+   4. KHU VỰC UPLOAD
+======================================== */
+
+.upload-section {
+    text-align: center;
+    margin: 35px auto 75px;
 }
 
-.add-btn:hover {
-  background: #b99aff30;
-  transform: translateY(-2px);
+.upload-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 32px;
+    border: 1px solid rgba(210, 184, 255, 0.5);
+    border-radius: 50px;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(
+        135deg,
+        rgba(135, 83, 220, 0.8),
+        rgba(67, 116, 220, 0.8)
+    );
+    box-shadow: 0 0 25px rgba(151, 107, 255, 0.35);
+    transition: 0.3s ease;
 }
 
-.intro {
-  text-align: center;
-  padding: 65px 15px 20px;
+.upload-button span {
+    font-size: 23px;
+    line-height: 1;
 }
 
-.eyebrow {
-  color: #c7b0ff;
-  font-size: 10px;
-  letter-spacing: 5px;
+.upload-button:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 0 35px rgba(174, 137, 255, 0.65);
 }
 
-h1 {
-  font: 500 clamp(38px, 6vw, 65px)/1.15
-    'Playfair Display', serif;
-  margin: 20px 0;
+.upload-note {
+    margin-top: 15px;
+    color: #aaa9d0;
+    font-size: 12px;
 }
 
-h1 em {
-  color: #eab8dc;
+
+/* ========================================
+   5. TIÊU ĐỀ GALLERY
+======================================== */
+
+.gallery-section {
+    padding-bottom: 70px;
 }
 
-.subtitle {
-  color: #b9b5d0;
-  font-size: 13px;
+.section-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 55px;
 }
 
-.hint {
-  color: #8585ac;
-  font-size: 11px;
-  margin-top: 25px;
+.section-title span {
+    color: #c6a3ff;
+    font-size: 25px;
+    text-shadow: 0 0 15px #bd8cff;
 }
+
+.section-title h2 {
+    font-size: 25px;
+    letter-spacing: 3px;
+    font-weight: 600;
+    color: #e7d9ff;
+}
+
+
+/* ========================================
+   6. THÔNG BÁO CHƯA CÓ ẢNH
+======================================== */
+
+.empty-message {
+    text-align: center;
+    padding: 55px 20px;
+    color: #bcb8df;
+}
+
+.empty-icon {
+    font-size: 65px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px #a78bfa);
+    animation: floating 3s ease-in-out infinite;
+}
+
+.empty-message h3 {
+    color: #e5d9ff;
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.empty-message p {
+    max-width: 420px;
+    margin: auto;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+
+/* ========================================
+   7. KHU VỰC TREO ẢNH
+======================================== */
 
 .gallery {
-  width: min(1100px, 92%);
-  margin: 50px auto 0;
-  min-height: 300px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 28px;
-  padding: 35px 10px 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 65px 35px;
+    padding: 20px 10px;
 }
 
-.rope {
-  position: absolute;
-  top: 25px;
-  left: 0;
-  width: 100%;
-  height: 25px;
-  border-top: 2px solid #d8c7e9;
-  border-radius: 50%;
-  transform: rotate(-1deg);
-  filter: drop-shadow(0 0 6px #d8baff);
+.photo-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 13px 13px 18px;
+    background: linear-gradient(145deg, #fffdf5, #e8e1f1);
+    border-radius: 4px;
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.35),
+        0 0 20px rgba(180, 145, 255, 0.15);
+    cursor: pointer;
+    transition: 0.35s ease;
+    animation: appear 0.7s ease both;
 }
 
-.rope::after {
-  content: "";
-  position: absolute;
-  top: -4px;
-  width: 100%;
-  border-top: 1px solid #ffffff70;
-  border-radius: 50%;
+/* Dây treo ảnh */
+.photo-item::before {
+    content: "";
+    position: absolute;
+    top: -43px;
+    left: 50%;
+    width: 2px;
+    height: 43px;
+    background: linear-gradient(#d6c1ff, #fff0bd);
+    box-shadow: 0 0 8px #c9a7ff;
 }
 
-.photo {
-  position: relative;
-  z-index: 1;
-  width: 170px;
-  padding: 9px 9px 14px;
-  margin-top: 12px;
-  background: #fff5e9;
-  color: #33263c;
-  box-shadow: 0 12px 35px #0006;
-  cursor: pointer;
-  transform: rotate(var(--tilt));
-  transform-origin: 50% -10px;
-  animation: swing 4s ease-in-out infinite alternate;
-  animation-delay: var(--delay);
-  transition: box-shadow .25s;
+/* Kẹp ảnh */
+.photo-item::after {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 14px;
+    height: 19px;
+    transform: translateX(-50%);
+    border-radius: 3px;
+    background: #e6c98d;
+    box-shadow: 0 0 8px rgba(255, 220, 160, 0.7);
 }
 
-.photo:nth-of-type(even) {
-  margin-top: 38px;
+.photo-item img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 2px;
+    display: block;
 }
 
-.photo:hover {
-  box-shadow: 0 15px 40px #cbaaff50;
+.photo-item p {
+    width: 100%;
+    margin-top: 13px;
+    color: #30294a;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    overflow-wrap: anywhere;
 }
 
-.clip {
-  position: absolute;
-  top: -22px;
-  left: calc(50% - 6px);
-  width: 13px;
-  height: 30px;
-  border: 2px solid #d9c8e6;
-  border-radius: 7px 7px 0 0;
-  border-bottom: 0;
+.photo-item small {
+    margin-top: 6px;
+    color: #746c88;
+    font-size: 11px;
 }
 
-.clip::after {
-  content: "";
-  position: absolute;
-  top: 8px;
-  left: -4px;
-  width: 17px;
-  border-top: 2px solid #d9c8e6;
+.photo-item:hover {
+    transform: translateY(-10px) rotate(0deg) scale(1.04);
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.45),
+        0 0 30px rgba(184, 139, 255, 0.45);
+    z-index: 2;
 }
 
-.photo img {
-  width: 100%;
-  height: 155px;
-  object-fit: cover;
-  display: block;
-  background: #ddd2e8;
+/* Xoay nhẹ từng ảnh */
+.photo-item:nth-child(4n + 1) {
+    transform: rotate(-2deg);
 }
 
-.caption {
-  font: italic 14px 'Playfair Display', serif;
-  text-align: center;
-  margin-top: 12px;
-  overflow-wrap: anywhere;
+.photo-item:nth-child(4n + 2) {
+    transform: rotate(1.8deg);
 }
 
-.date {
-  font-size: 9px;
-  text-align: center;
-  color: #93839d;
-  margin-top: 5px;
+.photo-item:nth-child(4n + 3) {
+    transform: rotate(-1deg);
 }
 
-@keyframes swing {
-  from { rotate: -2deg; }
-  to { rotate: 2deg; }
+.photo-item:nth-child(4n) {
+    transform: rotate(2deg);
 }
 
-.empty {
-  text-align: center;
-  padding: 55px 10px;
-  color: #aaa5c7;
-  z-index: 1;
-}
 
-.empty .star {
-  font-size: 40px;
-  color: #e6b8e4;
-}
-
-.empty h2 {
-  font: 500 23px 'Playfair Display', serif;
-  color: #f0e5f4;
-}
-
-.empty p {
-  font-size: 12px;
-}
-
-footer {
-  margin-top: 50px;
-  padding: 24px;
-  text-align: center;
-  border-top: 1px solid #ffffff12;
-  color: #777797;
-  font-size: 9px;
-  letter-spacing: 3px;
-}
+/* ========================================
+   8. KHUNG XEM ẢNH LỚN
+======================================== */
 
 .viewer {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  background: #050615ed;
-  backdrop-filter: blur(12px);
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 20px;
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    background: rgba(3, 4, 18, 0.92);
+    backdrop-filter: blur(12px);
 }
 
-.viewer.open {
-  display: flex;
+.viewer-content {
+    max-width: 850px;
+    width: 100%;
+    max-height: 90vh;
+    text-align: center;
+    animation: zoomIn 0.3s ease;
 }
 
-.viewer img {
-  max-width: 85vw;
-  max-height: 68vh;
-  object-fit: contain;
-  border: 8px solid #fff5e9;
+.viewer-content img {
+    display: block;
+    max-width: 100%;
+    max-height: 70vh;
+    margin: auto;
+    object-fit: contain;
+    border: 5px solid rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    box-shadow: 0 0 35px rgba(166, 127, 255, 0.4);
 }
 
-.viewer h2 {
-  font: italic 24px 'Playfair Display', serif;
+.viewer-content h2 {
+    margin-top: 20px;
+    color: #e7d9ff;
+    font-size: 21px;
+    overflow-wrap: anywhere;
 }
 
-.close {
-  position: absolute;
-  top: 20px;
-  right: 28px;
-  border: none;
-  background: none;
-  color: white;
-  font-size: 38px;
+.viewer-content p {
+    margin-top: 8px;
+    color: #aaa9d0;
+    font-size: 13px;
 }
 
-.delete-btn {
-  color: #ffb5c4;
-  background: #ff8fa010;
-  border: 1px solid #ff9ba650;
-  padding: 9px 16px;
-  border-radius: 20px;
+.close-viewer {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 30px;
+    background: rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+    transition: 0.3s;
 }
+
+.close-viewer:hover {
+    background: #8d63db;
+    transform: rotate(90deg);
+}
+
+
+/* ========================================
+   9. FOOTER
+======================================== */
+
+.footer {
+    padding: 35px 15px;
+    border-top: 1px solid rgba(206, 183, 255, 0.15);
+    text-align: center;
+    color: #aaa4cf;
+    font-size: 12px;
+    line-height: 2;
+    letter-spacing: 1px;
+}
+
+
+/* ========================================
+   10. HIỆU ỨNG
+======================================== */
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* ========================================
+   11. RESPONSIVE - ĐIỆN THOẠI
+======================================== */
 
 @media (max-width: 600px) {
-  header {
-    padding: 18px 5%;
-  }
+    .header {
+        padding-top: 55px;
+    }
 
-  .logo {
-    letter-spacing: 2px;
-    font-size: 11px;
-  }
+    .logo {
+        font-size: 11px;
+        letter-spacing: 4px;
+    }
 
-  .photo {
-    width: 140px;
-    padding: 7px 7px 12px;
-  }
+    .header p {
+        font-size: 13px;
+    }
 
-  .photo img {
-    height: 125px;
-  }
+    .upload-section {
+        margin-bottom: 55px;
+    }
 
-  .gallery {
-    gap: 24px 14px;
-  }
+    .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 55px 15px;
+        padding: 10px 0;
+    }
 
-  .intro {
-    padding-top: 50px;
-  }
+    .photo-item {
+        padding: 8px 8px 13px;
+    }
+
+    .photo-item img {
+        height: 150px;
+    }
+
+    .photo-item p {
+        font-size: 12px;
+    }
+
+    .section-title h2 {
+        font-size: 19px;
+        letter-spacing: 2px;
+    }
+
+    .section-title {
+        gap: 12px;
+    }
+
+    .viewer-content img {
+        max-height: 60vh;
+    }
+
+    .close-viewer {
+        top: 15px;
+        right: 15px;
+    }
 }
